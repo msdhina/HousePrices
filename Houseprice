@@ -1,0 +1,65 @@
+attach(hse)
+boxplot(Price,Living.Area)
+plot(Price,Living.Area)
+names(hse)
+?boxplot
+hist(Price)
+hist(Living.Area)
+?plot
+cormat <- round(cor(hse),2)
+head(cormat)
+
+get_lower_tri<-function(cormat)
+{
+  cormat[upper.tri(cormat)] <- NA
+  return(cormat)
+}
+
+get_upper_tri <- function(cormat)
+{
+  cormat[lower.tri(cormat)]<- NA
+  return(cormat)
+}
+
+upper_tri <- get_upper_tri(cormat)
+upper_tri
+library(reshape2)
+melted_cormat <- melt(upper_tri, na.rm = TRUE)
+library(ggplot2)
+ggplot(data = melted_cormat, aes(Var2, Var1, fill = value))+
+  geom_tile(color = "white")+
+  scale_fill_gradient2( 
+                       midpoint = 0, limit = c(-1,1), space = "Lab", 
+                       name="Correlation") +
+  theme_minimal()+ 
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, 
+                                   size = 12, hjust = 1))+
+  coord_fixed()
+
+
+
+plot(Price,Living.Area)
+plot(Price[Living.Area>=1800 & Bathrooms>=3],Age[Living.Area>=1800 & Bathrooms>=3],xlab = "Price",ylab = "Age",pch=9,col="red")
+mean(Living.Area)
+  
+hist(Age)
+plot(Price[Age<=5 ],Living.Area[Age<=5],xlab="Price of new houses",ylab="Living area of new houses")
+points(Price[Age<=5 & Bedrooms>=3],Living.Area[Age<=5 & Bedrooms>=3],col="red")
+legend("topright",legend=unique(Age))
+points(Price[Age<=5 & Bedrooms<=1],Living.Area[Age<=5 & Bedrooms<=1],pch=2,col="blue")
+summary(hse)
+
+
+plot(Price,Living.Area)
+points(Price[Price<=3e+05 & Living.Area<=1500 &Age <=15 & Bathrooms>=2 & Bedrooms>=3],Living.Area[Price<=3e+05& Living.Area<=1500 & Age<=15 & Bathrooms>=2 & Bedrooms>=3],pch=20,col="Green")
+
+ag=data.frame(Price[Price<=3e+05 & Living.Area<=1500 &Age <=15 & Bathrooms>=2 & Bedrooms>=3])
+ch<-order(ag)
+View(ch)
+points(Price[Price>=3e+05 & Living.Area<=2500 & Age==78],Living.Area[Price>=3e+05& Living.Area<=2500& Age==78],pch=20,col="red")
+summary(ag)
+plot(Price,Living.Area,title(main = "Best buy in expensive category"))
+points(Price[Price<=4e+05 & Living.Area>=3900 & Bedrooms<=4 & Age<=1],Living.Area[Price<=4e+05 & Living.Area>=3900 &Bedrooms<=4& Age<=1],pch=11,col="Red")
+ga<-data.frame(Living.Area[Price<=4e+05 & Living.Area>=3900 & Bedrooms<=4& Age<=1] )
+View(ga)
+
